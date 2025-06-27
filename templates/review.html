@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI答案审核平台</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="panel image-panel">
+            <h2>图片内容</h2>
+            <img src="{{ url_for('serve_image', filename=record['image_path']) }}" alt="审核图片">
+        </div>
+
+        <div class="panel info-panel">
+            <h2>审核信息 (ID: {{ record['id'] }})</h2>
+
+            <div class="info-block">
+                <h3>问题 (Question)</h3>
+                <p>{{ record['question'] }}</p>
+            </div>
+
+            <div class="info-block">
+                <h3>Gemini 答案 (Answer)</h3>
+                <p class="answer-box gemini">{{ record['gemini_answer'] }}</p>
+            </div>
+
+            <div class="info-block">
+                <h3>专家组共识答案 (Consensus Answer)</h3>
+                <p class="answer-box consensus">{{ record['consensus_answer'] }}</p>
+            </div>
+
+            <form id="review-form" action="{{ url_for('review_page', record_id=record['id']) }}" method="post">
+                <h3>人工审核</h3>
+                <div class="form-group">
+                    <label><input type="radio" name="verdict" value="gemini_correct" required> Gemini答案正确</label>
+                    <label><input type="radio" name="verdict" value="consensus_correct"> 专家组共识答案正确</label>
+                    <label><input type="radio" name="verdict" value="both_incorrect"> 都不对</label>
+                </div>
+                <div class="form-group" id="manual-answer-group" style="display: none;">
+                    <label for="manual_answer">请输入正确答案：</label>
+                    <input type="text" id="manual_answer" name="manual_answer" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="manual_analysis">审核解析 (选填)：</label>
+                    <textarea id="manual_analysis" name="manual_analysis" class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn-submit">保存并审核下一条</button>
+            </form>
+
+            <div class="info-block debate-history">
+                <h3>辩论历史 (Debate History)</h3>
+                {% for agent_conv in debate_history %}
+                    <div class="agent-thread">
+                        <h4>智能体 #{{ loop.index }}</h4>
+                        {% for message in agent_conv %}
+                            <div class="message message-{{ message.role }}">
+                                <strong>{{ message.role }}:</strong>
+                                <pre>{{ message.content if message.content is string else message.content[0].text }}</pre>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('review-form');
+        const manualAnswerGroup = document.getElementById('manual-answer-group');
+        const manualAnswerInput = document.getElementById('manual_answer');
+
+        form.addEventListener('change', function(event) {
+            if (event.target.name === 'verdict') {
+                if (event.target.value === 'both_incorrect') {
+                    manualAnswerGroup.style.display = 'block';
+                    manualAnswerInput.required = true;
+                } else {
+                    manualAnswerGroup.style.display = 'none';
+                    manualAnswerInput.required = false;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f4f7f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+.container {
+    display: flex;
+    gap: 20px;
+    max-width: 1800px;
+    margin: auto;
+}
+.panel {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+.image-panel {
+    flex: 1;
+}
+.info-panel {
+    flex: 1;
+}
+img {
+    max-width: 100%;
+    border-radius: 4px;
+}
+h2, h3, h4 {
+    color: #1a202c;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+.info-block {
+    margin-bottom: 20px;
+}
+.answer-box {
+    background-color: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 15px;
+    font-size: 1.1em;
+    font-weight: 500;
+}
+.answer-box.gemini { border-left: 4px solid #4299e1; }
+.answer-box.consensus { border-left: 4px solid #48bb78; }
+
+form {
+    background-color: #edf2f7;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+input[type="radio"] {
+    margin-right: 8px;
+}
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cbd5e0;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.btn-submit {
+    background-color: #3182ce;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+}
+.btn-submit:hover {
+    background-color: #2b6cb0;
+}
+
+.debate-history { margin-top: 30px; }
+.agent-thread {
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 10px;
+}
+.message {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    font-family: 'Courier New', Courier, monospace;
+}
+.message-user { background-color: #f0f4f8; }
+.message-assistant { background-color: #e6f4ea; }
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 0;
+}
